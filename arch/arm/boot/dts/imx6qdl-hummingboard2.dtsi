@@ -170,6 +170,7 @@
 	status = "okay";
 };
 
+/* Conflicts with the CAN bus option */
 &hdmi {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hummingboard2_hdmi>;
@@ -465,10 +466,33 @@
 			>;
 		};
 
+		pinctrl_hummingboard2_uart2: hummingboard2-uart2 {
+			fsl,pins = <
+				MX6QDL_PAD_SD4_DAT4__UART2_RX_DATA	0x1b0b1
+				MX6QDL_PAD_SD4_DAT7__UART2_TX_DATA	0x1b0b1
+				MX6QDL_PAD_SD4_DAT6__UART2_CTS_B	0x1b0b1
+			>;
+		};
+
 		pinctrl_hummingboard2_uart3: hummingboard2-uart3 {
 			fsl,pins = <
 				MX6QDL_PAD_EIM_D25__UART3_TX_DATA	0x1b0b1
-				MX6QDL_PAD_EIM_D24__UART3_RX_DATA	0x40013000
+				MX6QDL_PAD_EIM_D24__UART3_RX_DATA	0x1b0b1
+			>;
+		};
+
+		/* In Hummingboard2 rev 1.4 Rx/Tx are not swapped */
+		pinctrl_hummingboard2_rev14_uart3: hummingboard2-rev14-uart3 {
+			fsl,pins = <
+				MX6QDL_PAD_EIM_D24__UART3_TX_DATA	0x1b0b1
+				MX6QDL_PAD_EIM_D25__UART3_RX_DATA	0x1b0b1
+			>;
+		};
+
+		pinctrl_hummingboard2_flexcan1: hummingboard2-flexcan1 {
+			fsl,pins = <
+				MX6QDL_PAD_KEY_ROW2__FLEXCAN1_RX	0x1b0b1
+				MX6QDL_PAD_KEY_COL2__FLEXCAN1_TX	0x1b0b1
 			>;
 		};
 	};
@@ -529,10 +553,26 @@
 	status = "okay";
 };
 
+/* Optional RS-485 transceiver */
+&uart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hummingboard2_uart2>;
+	uart-has-rtscts;
+	status = "disabled";
+};
+
 &uart3 {
 	pinctrl-names = "default";
+	/* Use &pinctrl_hummingboard2_rev14_uart3 for HB2 rev 1.4 */
 	pinctrl-0 = <&pinctrl_hummingboard2_uart3>;
 	status = "okay";
+};
+
+/* Optional CAN bus. Conflicts with HDMI CEC. */
+&can1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hummingboard2_flexcan1>;
+	status = "disabled";
 };
 
 &vcc_3v3 {
