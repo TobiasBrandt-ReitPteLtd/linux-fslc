@@ -175,7 +175,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hummingboard2_hdmi>;
 	ddc-i2c-bus = <&i2c2>;
-	status = "okay";
+	status = "disabled";
 };
 
 &i2c1 {
@@ -558,7 +558,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hummingboard2_uart2>;
 	uart-has-rtscts;
-	status = "disabled";
+	status = "okay";
 };
 
 &uart3 {
@@ -572,7 +572,7 @@
 &can1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hummingboard2_flexcan1>;
-	status = "disabled";
+	status = "okay";
 };
 
 &vcc_3v3 {
